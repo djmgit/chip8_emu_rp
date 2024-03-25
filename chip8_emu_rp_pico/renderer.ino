@@ -46,6 +46,6 @@ void render(renderer_t *renderer, Adafruit_SSD1306 display) {
         uint16_t y = (i / renderer->cols) * (renderer->scale);
 
         display.fillRect(x, y, renderer->scale, renderer->scale, SSD1306_INVERSE);
-        display.display();
     }
+    display.display();
 }
