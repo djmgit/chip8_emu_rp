@@ -1,4 +1,6 @@
 #include "renderer.h"
+#include "keyboard.h"
+#include "cpu.h"
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -20,6 +22,9 @@ renderer_t renderer = {
     .display = NULL
 };
 
+keyboard_t keyboard = (keyboard_t){};
+cpu_t cpu = (cpu_t){};
+
 void setup() {
     Serial.begin(9600);
 
@@ -34,7 +39,15 @@ void setup() {
   display.display();
   display.clearDisplay();
   initRenderer(&renderer);
+  initKeyBoard(&keyboard);
+  initCPU(&cpu);
+
+  loadProgramIntoMemory(&cpu);
 }
 
 void loop() {
+    // process input
+    cycle(&cpu, &keyboard, &renderer);
+    render(&renderer, display);
+    delay((int)(1000 / 60));
 }
